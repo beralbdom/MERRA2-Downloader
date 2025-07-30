@@ -94,6 +94,9 @@ def processar_netcdf(dir_completo):
 try:
     print('[#cccccc]Lendo URLs dos arquivos...[/#cccccc]', end = ' ')
     txt_files = [f for f in os.listdir('MERRA2/Listas/') if f.endswith('.txt')]
+    if not txt_files:
+        print('\n[red]Nenhum arquivo .txt encontrado na pasta MERRA2/Listas.[/red]')
+        exit()
     print('[#cccccc]OK[/#cccccc]')
     print('\n[green]Baixando dados...[/green]')
 
