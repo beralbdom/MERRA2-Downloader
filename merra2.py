@@ -14,8 +14,8 @@ from alive_progress import alive_bar
 os.system('cls')
 os.system('mode con: cols=90 lines=50')
 
-# warnings.filterwarnings("ignore", category = UserWarning)       # Alguma coisa estranha com o cdf.num2date
-# warnings.filterwarnings("ignore", category = RuntimeWarning)    # ^
+warnings.filterwarnings("ignore", category = UserWarning)       # Alguma coisa estranha com o cdf.num2date
+warnings.filterwarnings("ignore", category = RuntimeWarning)    # ^
 
 # https://disc.gsfc.nasa.gov/datasets/M2IMNXASM_5.12.4/summary
 print('[bold blue]································ [i]MERRA-2 Downloader v0.1[/i] ·································[/bold blue]')
@@ -199,7 +199,7 @@ for dir_caminho in subpastas:
         print(f'[#cccccc]Exportado para [i]{output_path.replace('\\', '/')}[/i][/#cccccc]\n')
 
 
-
+os.system('pause')
 # nc_files = []
 # for dirpath, _, filenames in os.walk('MERRA2/Dados brutos'):
 #     for filename in filenames:

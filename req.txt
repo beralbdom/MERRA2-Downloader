@@ -1,0 +1,6 @@
+earthaccess
+netCDF4
+pandas
+numpy
+rich
+alive_progress
