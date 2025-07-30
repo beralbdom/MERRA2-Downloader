@@ -37,6 +37,7 @@ print('[#cccccc]Conectando ao EarthAccess...[/#cccccc]', end = ' ')
 earthaccess.login(strategy = 'interactive', persist = True)
 print('[#cccccc]OK[/#cccccc]')
 
+
 def download(req):
     url, dir_destino = req
     arq = os.path.basename(urlparse(url).path)
@@ -60,6 +61,35 @@ def download(req):
         print(f'[red]Erro ao processar {arq}: {e}[/red]')
     finally:
         bar()
+
+
+def processar_netcdf(dir_completo):
+    try:
+        dataset = cdf.Dataset(dir_completo, 'r')
+        time = dataset.variables['time']
+        dates = cdf.num2date(time[:], units = time.units, 
+                             calendar = getattr(time, 'calendar', 'standard'),
+                             only_use_cftime_datetimes = False)
+        
+        data = pd.to_datetime(dates).to_period('M')
+        u_data = dataset.variables['U50M']
+        v_data = dataset.variables['V50M']
+        data_lats = dataset.variables[u_data.dimensions[1]][:]
+        data_lons = dataset.variables[u_data.dimensions[2]][:]
+
+        vel_vento = np.sqrt(u_data[:] ** 2 + v_data[:] ** 2)
+        vento_2d = vel_vento.reshape(vel_vento.shape[0], -1)
+        lon_grid, lat_grid = np.meshgrid(data_lons, data_lats)
+        cols = [f'({lt:.2f}, {ln:.2f})' for lt, ln in zip(lat_grid.ravel(), lon_grid.ravel())]
+
+        return pd.DataFrame(data=vento_2d, index=data, columns=cols)
+    
+    except Exception as e:
+        print(f'[red]Erro ao processar {dir_completo}: {e}[/red]')
+        return None
+    finally:
+        bar()
+
 
 try:
     print('[#cccccc]Lendo URLs dos arquivos...[/#cccccc]', end = ' ')
@@ -97,67 +127,6 @@ except Exception as e:
     print('[red]Cheque os arquivos .txt na pasta MERRA2/Listas.[/red]')
     exit()
 
-# def download(req):
-#     url, dir_destino = req
-#     try:
-#         url_parsed = urlparse(url)
-#         arq = os.path.basename(url_parsed.path)
-#         caminho_completo = os.path.join(dir_destino, arq)
-#         if os.path.exists(caminho_completo): return
-#         if not arq.endswith('.nc4'): return
-#         else:
-#             response = requests.get(url, stream = True)
-#             response.raise_for_status()
-
-#         with open(caminho_completo, 'wb') as f:
-#             for chunk in response.iter_content(chunk_size = 1024):
-#                 f.write(chunk)
-
-#     except Exception as e:
-#         print(f'[red]Erro ao processar {arq}: {e}[/red]')
-
-#     finally: bar()
-
-# with alive_bar(
-#     len(downloads),
-#     title = None,
-#     bar = None,
-#     spinner = 'circles',
-#     enrich_print = False,
-#     stats = 'tempo restante: {eta}',
-#     monitor = '{percent:.2%} ({count}/{total})',
-#     elapsed = None,
-#     stats_end = False,
-# ) as bar:
-#     with ThreadPoolExecutor(max_workers = 4) as executor:
-#         executor.map(download, downloads)
-
-def processar_netcdf(dir_completo):
-    try:
-        dataset = cdf.Dataset(dir_completo, 'r')
-        time = dataset.variables['time']
-        dates = cdf.num2date(time[:], units = time.units, 
-                             calendar = getattr(time, 'calendar', 'standard'),
-                             only_use_cftime_datetimes = False)
-        
-        data = pd.to_datetime(dates).to_period('M')
-        u_data = dataset.variables['U50M']
-        v_data = dataset.variables['V50M']
-        data_lats = dataset.variables[u_data.dimensions[1]][:]
-        data_lons = dataset.variables[u_data.dimensions[2]][:]
-
-        vel_vento = np.sqrt(u_data[:] ** 2 + v_data[:] ** 2)
-        vento_2d = vel_vento.reshape(vel_vento.shape[0], -1)
-        lon_grid, lat_grid = np.meshgrid(data_lons, data_lats)
-        cols = [f'({lt:.2f}, {ln:.2f})' for lt, ln in zip(lat_grid.ravel(), lon_grid.ravel())]
-
-        return pd.DataFrame(data=vento_2d, index=data, columns=cols)
-    
-    except Exception as e:
-        print(f'[red]Erro ao processar {dir_completo}: {e}[/red]')
-        return None
-    finally:
-        bar()
 
 print('\n[green]Processando datasets...[/green]')
 base_data_dir = 'MERRA2/Dados brutos'
@@ -198,36 +167,4 @@ for dir_caminho in subpastas:
         folder_df.to_csv(output_path)
         print(f'[#cccccc]Exportado para [i]{output_path.replace('\\', '/')}[/i][/#cccccc]\n')
 
-
 os.system('pause')
-# nc_files = []
-# for dirpath, _, filenames in os.walk('MERRA2/Dados brutos'):
-#     for filename in filenames:
-#         if filename.endswith('.nc4'):
-#             nc_files.append(os.path.join(dirpath, filename))
-
-# dfs = []
-# print('[green]Processando arquivos NetCDF...[/green]\n')
-
-# with alive_bar(
-#     len(nc_files),
-#     title = None,
-#     bar = None,
-#     spinner = 'circles',
-#     enrich_print = False,
-#     stats = 'tempo restante: {eta}',
-#     monitor = '{percent:.2%} ({count}/{total}),',
-#     elapsed = None,
-#     receipt = 'Concluído',
-#     stats_end = False,
-#     monitor_end = False,
-# ) as bar:
-#     with ThreadPoolExecutor(max_workers = None) as executor:
-#         results = executor.map(process_netcdf, nc_files)
-#         dfs = [df for df in results if df is not None]
-
-# if dfs:
-#     final_df = pd.concat(dfs)
-#     final_df.sort_index(inplace=True)
-#     final_df.index.name = 'Data'
-#     final_df.to_csv('MERRA2/Exportado/vento_mensal.csv')
