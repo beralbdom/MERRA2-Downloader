@@ -1,8 +1,0 @@
-.gitignore
-/brasil.qgz
-/Brasil_2000-01_teste.png
-/velocidade_qgis.tif
-/velocidade_qgis.tif.aux.xml
-/MERRA2/Dados brutos/*
-/MERRA2/Exportado/*
-*.nc4
