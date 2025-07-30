@@ -10,7 +10,7 @@
 
 #### Requisitos:
 * Python >3.12
-* Bibliotecas de `req.txt` (instale com `pip install req.txt`)
+* Bibliotecas de `req.txt` (instale com `pip install -r req.txt`)
 * Conta no NASA Earthdata e acesso ao GES DISC
     - [Registrar-se no Earthdata](https://www.earthdata.nasa.gov/data/earthdata-login#toc-how-do-i-register-with-earthdata-login)
     - [Ober acesso ao GES DISC](https://disc.gsfc.nasa.gov/earthdata-login)
