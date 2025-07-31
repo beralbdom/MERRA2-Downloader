@@ -1,7 +1,7 @@
 MERRA2/Dados brutos/*
 MERRA2/Listas/*
 MERRA2/Exportado/*
-# brasil_subsistemas.parquet
+brasil.parquet
 teste.py
 vento_50m_qgis.png
 plot.qgz
