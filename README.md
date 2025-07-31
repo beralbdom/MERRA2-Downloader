@@ -1,6 +1,7 @@
 ### MERRA-2 Downloader
 
-<img width="740" height="374" alt="image" src="https://github.com/user-attachments/assets/f387c7b5-bbec-4ca5-8b31-e4d58b2c6c03" />
+<img width="743" height="385" alt="image" src="https://github.com/user-attachments/assets/bd56609d-783f-459b-997e-e8d9f76c4d00" />
+
 
 ###### Script para baixar e processar datasets do MERRA-2. Download e processamento feitos em paralelo. Atualmente apenas dados de vento são suportados. Outros dados são planejados.
 
