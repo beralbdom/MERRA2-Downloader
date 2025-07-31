@@ -28,6 +28,7 @@ dirs_base = ['MERRA2/Dados brutos', 'MERRA2/Exportado', 'MERRA2/Listas']
 if all([os.path.exists(dirs) for dirs in dirs_base]) == False:
     for dir in dirs_base: os.makedirs(dir, exist_ok = True)
     print('\n[red]Algun(s) diretórios ainda não haviam sido criados. Re-execute o script.[/red]')
+    os.system('pause')
     os._exit(0)
 else: 
     for dir in dirs_base: os.makedirs(dir, exist_ok = True)
