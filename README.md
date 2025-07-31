@@ -1,4 +1,4 @@
-### MERRA-2 Downloader
+### 🐈‍⬛ MERRA-2 Downloader
 
 <img width="743" height="385" alt="image" src="https://github.com/user-attachments/assets/bd56609d-783f-459b-997e-e8d9f76c4d00" />
 
