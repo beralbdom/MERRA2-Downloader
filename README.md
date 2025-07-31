@@ -1,7 +1,6 @@
 ### 🐈‍⬛ MERRA-2 Downloader
 
-<img width="743" height="385" alt="image" src="https://github.com/user-attachments/assets/bd56609d-783f-459b-997e-e8d9f76c4d00" />
-
+<img width="742" height="403" alt="image" src="https://github.com/user-attachments/assets/b61026a7-b805-4ba4-9f5f-4819784a2c59" />
 ###### Script para baixar e processar datasets do MERRA-2, com download e processamento feitos em paralelo.
 
 #### Requisitos:
