@@ -35,7 +35,14 @@ else:
 
 print('[#cccccc]OK[/#cccccc]')
 print('[#cccccc]Conectando ao EarthAccess...[/#cccccc]', end = ' ')
-earthaccess.login(strategy = 'interactive', persist = True)
+
+while True:
+    try:
+        earthaccess.login(strategy = 'interactive', persist = True)
+        break
+    except Exception as e:
+        print(f'[red]Erro ao conectar ao EarthAccess. Tente novamente.[/red]\n')
+
 print('[#cccccc]OK[/#cccccc]')
 
 
