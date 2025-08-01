@@ -154,8 +154,8 @@ try:
 except Exception as e:
     print(f'[red]Erro ao ler arquivos: {e}[/red]')
     print('[red]Cheque os arquivos .txt na pasta MERRA2/Listas.[/red]')
-    exit()
     os.system('pause')
+    os._exit(0)
 
 
 print('\n[green]Processando datasets...[/green]')
@@ -198,13 +198,13 @@ for dir_caminho in subpastas:
 
     if dfs_por_variavel:
         for var, dfs in dfs_por_variavel.items():
-            folder_df = pd.concat(dfs)
+            df_var = pd.concat(dfs)
 
-            folder_df.sort_index(inplace = True)
-            folder_df.index.name = 'Data'
+            df_var.sort_index(inplace = True)
+            df_var.index.name = 'Data'
 
             dir_saida = f'{export_dir}/{dir_nome}/{var}.csv'
-            folder_df.to_csv(dir_saida)
+            df_var.to_csv(dir_saida)
 
             print(f'[#cccccc]Salvo em [i]{dir_saida.replace('\\', '/')}[/i][/#cccccc]')
         
