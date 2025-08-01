@@ -84,7 +84,7 @@ def processar_netcdf(dir_completo):
         dataset = cdf.Dataset(dir_completo, 'r')
         time_var = dataset.variables['time']
         datas = cdf.num2date(time_var[:], units = time_var.units, only_use_cftime_datetimes = False)
-        datas_dt = pd.to_datetime(datas).to_period('M')
+        datas_dt = pd.to_datetime(datas)
         vars_uteis = [var for var in dataset.variables if var not in ['time', 'lat', 'lon']]
         dfs = {}
 
@@ -124,7 +124,7 @@ try:
         print('\n[red]Nenhum arquivo .txt encontrado na pasta MERRA2/Listas.[/red]')
         os.system('pause')
         os._exit(0)
-        
+
     print('[#cccccc]OK[/#cccccc]')
     print('\n[green]Baixando dados...[/green]')
 
