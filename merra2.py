@@ -122,7 +122,9 @@ try:
     arqs_txt = [f for f in os.listdir('MERRA2/Listas/') if f.endswith('.txt')]
     if not arqs_txt:
         print('\n[red]Nenhum arquivo .txt encontrado na pasta MERRA2/Listas.[/red]')
-        exit()
+        os.system('pause')
+        os._exit(0)
+        
     print('[#cccccc]OK[/#cccccc]')
     print('\n[green]Baixando dados...[/green]')
 
